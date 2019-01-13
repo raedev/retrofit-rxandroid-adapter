@@ -1,4 +1,4 @@
-package retrofit2.adapter.rxjava2.rae;
+package retrofit2.adapter.rxjava2;
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.support.annotation.NonNull;
