@@ -1,12 +1,11 @@
 package retrofit2.adapter.rxjava2;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-
-import javax.annotation.Nullable;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
@@ -33,7 +32,8 @@ public class RxAndroidCallAdapterFactory extends CallAdapter.Factory {
     }
 
 
-    private final @Nullable Scheduler scheduler;
+    private final @Nullable
+    Scheduler scheduler;
     private final boolean isAsync;
 
     private RxAndroidCallAdapterFactory() {
@@ -41,7 +41,9 @@ public class RxAndroidCallAdapterFactory extends CallAdapter.Factory {
         this.isAsync = false;
     }
 
-    @Override public @Nullable CallAdapter<?, ?> get(
+    @Override
+    public @Nullable
+    CallAdapter<?, ?> get(
             @NonNull Type returnType, @NonNull Annotation[] annotations, @NonNull Retrofit retrofit) {
         Class<?> rawType = getRawType(returnType);
 
@@ -55,8 +57,8 @@ public class RxAndroidCallAdapterFactory extends CallAdapter.Factory {
         boolean isFlowable = rawType == Flowable.class;
         boolean isSingle = rawType == Single.class;
         boolean isMaybe = rawType == Maybe.class;
-        boolean isAndroid = rawType == AndroidObservable.class;
-        if (rawType != Observable.class && !isFlowable && !isSingle && !isMaybe) {
+        boolean isObservable = (rawType == Observable.class || rawType == AndroidObservable.class);
+        if (!isObservable && !isFlowable && !isSingle && !isMaybe) {
             return null;
         }
 
@@ -91,9 +93,12 @@ public class RxAndroidCallAdapterFactory extends CallAdapter.Factory {
             isBody = true;
         }
 
-        RxJava2CallAdapter adapter = new RxJava2CallAdapter(responseType, scheduler, isAsync, isResult, isBody, isFlowable,
+        CallAdapter<?, ?> adapter = new RxJava2CallAdapter(responseType, scheduler, isAsync, isResult, isBody, isFlowable,
                 isSingle, isMaybe, false);
 
-        return  new AndroidCallAdapter<>(adapter);
+        // convert to android observable
+        if (rawType == AndroidObservable.class)
+            adapter = new AndroidCallAdapter<>(adapter);
+        return adapter;
     }
 }

@@ -15,13 +15,10 @@ import retrofit2.CallAdapter;
 public class AndroidCallAdapter <R> implements CallAdapter<R, Object> {
 
     // Source Adapter
-    private CallAdapter<R, Object> mCallAdapter;
+    private CallAdapter<R, ?> mCallAdapter;
 
-    public AndroidCallAdapter(CallAdapter<R, Object> callAdapter) {
+    AndroidCallAdapter(CallAdapter<R, ?> callAdapter) {
         mCallAdapter = callAdapter;
-    }
-
-    public AndroidCallAdapter() {
     }
 
     @Override

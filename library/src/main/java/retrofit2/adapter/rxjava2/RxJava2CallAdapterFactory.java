@@ -15,6 +15,8 @@
  */
 package retrofit2.adapter.rxjava2;
 
+import android.support.annotation.Nullable;
+
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
@@ -25,7 +27,6 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import javax.annotation.Nullable;
 import retrofit2.CallAdapter;
 import retrofit2.HttpException;
 import retrofit2.Response;
@@ -82,7 +83,8 @@ public final class RxJava2CallAdapterFactory extends CallAdapter.Factory {
     return new RxJava2CallAdapterFactory(scheduler, false);
   }
 
-  private final @Nullable Scheduler scheduler;
+  private final @Nullable
+  Scheduler scheduler;
   private final boolean isAsync;
 
   private RxJava2CallAdapterFactory(@Nullable Scheduler scheduler, boolean isAsync) {
