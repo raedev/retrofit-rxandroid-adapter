@@ -2,7 +2,7 @@
 
 An `Adapter` for adapting ` RxJava 2.x` types.
 
-![version](https://img.shields.io/badge/version-1.0.0-brightgreen.svg)
+[![](https://jitpack.io/v/raedev/retrofit-rxandroid-adapter.svg)](https://jitpack.io/#raedev/retrofit-rxandroid-adapter)
 
 # Usege
 
@@ -30,7 +30,7 @@ Note: method `.subscribeOn(AndroidSchedulers.mainThread())` is call in AndroidOb
 public class MyActivity extends Activity {
 
 	@Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		MyService service = retrofit.create(MyService.class);
 		service.getUser().with(this).subscribe(new YourObserver());
 	}
@@ -43,8 +43,8 @@ public class MyActivity extends Activity {
 public class MyFragment extends Fragment {
 
 	@Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		MyService service = retrofit.create(MyService.class);
 		service.getUser().with(this).subscribe(new YourObserver());
 	}
